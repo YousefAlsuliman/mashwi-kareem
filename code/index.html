@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حساب تكلفة الوصفات</title>
+    <script>
+      function uploadFile() {
+        let formData = new FormData();
+        let fileInput = document.getElementById("csvFile");
+        formData.append("file", fileInput.files[0]);
+
+        fetch("http://127.0.0.1:5000/upload", {
+          // Ensure Flask URL is correct
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            let productDropdown = document.getElementById("productDropdown");
+            productDropdown.innerHTML = "";
+            data.products.forEach((product) => {
+              let option = document.createElement("option");
+              option.value = product;
+              option.textContent = product;
+              productDropdown.appendChild(option);
+            });
+            alert("تم تحميل الملف بنجاح!");
+          })
+          .catch((error) => alert("خطأ في تحميل الملف!"));
+      }
+
+      function calculateRecipe() {
+        let productName = document.getElementById("productDropdown").value;
+        fetch(
+          "http://127.0.0.1:5000/calculate?product=" +
+            encodeURIComponent(productName)
+        ) // Ensure Flask URL
+          .then((response) => response.json())
+          .then((data) => {
+            let resultDiv = document.getElementById("results");
+            resultDiv.innerHTML = "<h3>نتائج الحساب:</h3>";
+            data.recipe.forEach((item) => {
+              resultDiv.innerHTML += `
+                        <p><strong>اسم المكوّن:</strong> ${item.name}</p>
+                        <p><strong>إجمالي الكمية بالجرام:</strong> ${item.amount} g</p>
+                        <p><strong>إجمالي تكلفة المكوّن:</strong> ${item.total_price} ريال</p>
+                        <hr>
+                    `;
+            });
+          })
+          .catch((error) => alert("خطأ في الحساب!"));
+      }
+    </script>
+  </head>
+  <body>
+    <h2>حساب تكلفة الوصفات</h2>
+
+    <!-- Upload CSV File -->
+    <input type="file" id="csvFile" />
+    <button onclick="uploadFile()">تحميل الملف</button>
+
+    <br /><br />
+
+    <!-- Product Selection -->
+    <label for="productDropdown">اختر المنتج:</label>
+    <select id="productDropdown"></select>
+
+    <button onclick="calculateRecipe()">احسب التكلفة</button>
+
+    <div id="results"></div>
+  </body>
+</html>
