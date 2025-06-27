@@ -99,6 +99,13 @@
         font-size: 1rem;
         margin-top: 4rem;
       }
+      .dish-image img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
     </style>
   </head>
 
@@ -113,7 +120,26 @@
         <h2>
           أصناف رئيسية
           <span style="font-size: 1rem; color: #555">(حجم كبير)</span>
+          <button
+            onclick="toggleImage('bigDishImage')"
+            style="
+              font-size: 0.9rem;
+              margin-right: 10px;
+              padding: 0.3rem 0.8rem;
+              background-color: #e4572b;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+            "
+          >
+            عرض الصورة
+          </button>
         </h2>
+        <div id="bigDishImage" class="dish-image" style="display: none">
+          <img src="big.jpeg" alt="حجم الطبق الكبير" />
+        </div>
+
         <div class="menu-item">
           <span>سخان مشاوي مشكل</span><span>350 ريال</span>
         </div>
@@ -153,7 +179,26 @@
         <h2>
           اطباق إيطالية
           <span style="font-size: 1rem; color: #555">(حجم كبير)</span>
+          <button
+            onclick="toggleImage('smallDishImage')"
+            style="
+              font-size: 0.9rem;
+              margin-right: 10px;
+              padding: 0.3rem 0.8rem;
+              background-color: #e4572b;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+            "
+          >
+            عرض الصورة
+          </button>
         </h2>
+        <div id="smallDishImage" class="dish-image" style="display: none">
+          <img src="big.jpeg" alt="حجم الطبق الصغير" />
+        </div>
+
         <div class="menu-item">
           <span>بشاميل بالدجاج</span><span>200 ريال</span>
         </div>
@@ -191,7 +236,28 @@
       </div>
 
       <div class="menu-category">
-        <h2>الحلويات</h2>
+        <h2>
+          الحلويات
+          <button
+            onclick="toggleImage('dessertDishImage')"
+            style="
+              font-size: 0.9rem;
+              margin-right: 10px;
+              padding: 0.3rem 0.8rem;
+              background-color: #e4572b;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+            "
+          >
+            عرض الصورة
+          </button>
+        </h2>
+        <div id="dessertDishImage" class="dish-image" style="display: none">
+          <img src="small.jpeg" alt="حجم طبق الحلى" />
+        </div>
+
         <div class="menu-item">
           <span>سخان أم علي</span><span>150 ريال</span>
         </div>
@@ -205,5 +271,11 @@
     </main>
 
     <footer>&copy; 2025 مشوي كريم. جميع الحقوق محفوظة.</footer>
+    <script>
+      function toggleImage(id) {
+        const img = document.getElementById(id);
+        img.style.display = img.style.display === "none" ? "block" : "none";
+      }
+    </script>
   </body>
 </html>
